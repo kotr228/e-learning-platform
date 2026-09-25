@@ -4,6 +4,7 @@
  */
 
 import axios, { type AxiosError } from 'axios'
+import { DEFAULT_COURSE_GRADIENT } from './courses'
 import { APIError, NetworkError, errorLogger } from './errors'
 import type { Course } from './types'
 
@@ -116,6 +117,7 @@ export async function fetchCoursesFromAPI(firstId: number, limit = 3): Promise<C
       duration: `${Math.floor(Math.random() * 10) + 5} годин`,
       description: post.body,
       icon: ['🌐', '📡', '☁️'][index % 3],
+      gradientClasses: DEFAULT_COURSE_GRADIENT,
       enrolled: false,
       progress: 0,
       level: 'beginner',

@@ -11,10 +11,11 @@ import { useNotify } from '@/context/ToastContext'
 import { LEVEL_LABELS } from '@/lib/courses'
 import type { Course, CourseLevel } from '@/lib/types'
 
+// Бейджі лежать на яскравій кольоровій обкладинці в обох темах, тому вони завжди непрозорі й світлі
 const LEVEL_BADGE: Record<CourseLevel, string> = {
-  beginner: 'bg-accent-50 text-accent-700 ring-accent-200 dark:bg-accent-500/15 dark:text-accent-300 dark:ring-accent-500/30',
-  intermediate: 'bg-brand-50 text-brand-700 ring-brand-200 dark:bg-brand-500/15 dark:text-brand-300 dark:ring-brand-500/30',
-  advanced: 'bg-violet-50 text-violet-700 ring-violet-200 dark:bg-violet-500/15 dark:text-violet-300 dark:ring-violet-500/30'
+  beginner: 'bg-accent-50 text-accent-700 ring-accent-200',
+  intermediate: 'bg-brand-50 text-brand-700 ring-brand-200',
+  advanced: 'bg-violet-50 text-violet-700 ring-violet-200'
 }
 
 const pluralLessons = (n: number) => {
@@ -59,12 +60,15 @@ export function CourseCard({ course }: { course: Course }) {
       className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-xl hover:shadow-brand-900/5 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-brand-500/50 dark:hover:shadow-black/40"
     >
       {/* Обкладинка */}
-      <div className="relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500 dark:from-brand-700 dark:via-brand-800 dark:to-accent-700">
+      {/* Обкладинка у фірмових кольорах технології; у темній темі трохи приглушена, щоб не сліпила */}
+      <div
+        className={`relative flex h-36 items-center justify-center overflow-hidden transition-[filter] duration-300 dark:brightness-90 ${course.gradientClasses}`}
+      >
         <div className="absolute -top-10 -right-10 size-32 rounded-full bg-white/10" aria-hidden />
         <div className="absolute -bottom-12 -left-8 size-28 rounded-full bg-white/10" aria-hidden />
         {/* Логотип технології: білий на темному градієнті, по центру обкладинки */}
-        <div className="relative flex items-center justify-center drop-shadow-md transition-transform duration-300 group-hover:scale-110">
-          <CourseIcon course={course} size={48} className="text-white" />
+        <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+          <CourseIcon course={course} size={48} className="text-white drop-shadow-md" />
         </div>
 
         <span

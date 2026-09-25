@@ -8,6 +8,9 @@ export const PASSING_SCORE = 70
 /** 12 ділиться на 1, 2, 3 і 4 колонки сітки — рядки завжди заповнені */
 export const ITEMS_PER_PAGE = 12
 
+/** Градієнт для курсів без технології (власні, з API) — фірмові кольори платформи */
+export const DEFAULT_COURSE_GRADIENT = 'bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500'
+
 export const LEVEL_LABELS: Record<CourseLevel, string> = {
   beginner: 'Початковий',
   intermediate: 'Середній',
@@ -89,6 +92,7 @@ export function createCustomCourse(id: number, input: NewCourseInput): Course {
     id,
     ...input,
     icon: input.icon || '📚',
+    gradientClasses: DEFAULT_COURSE_GRADIENT,
     enrolled: false,
     progress: 0,
     rating: 0,

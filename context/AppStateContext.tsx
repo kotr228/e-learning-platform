@@ -16,7 +16,7 @@ import {
 } from 'react'
 import { initialCourses } from '@/lib/data/courses'
 import { isTechIconKey } from '@/lib/courseIcons'
-import { createCustomCourse, withCompletedLesson } from '@/lib/courses'
+import { DEFAULT_COURSE_GRADIENT, createCustomCourse, withCompletedLesson } from '@/lib/courses'
 import { LocalStorageManager } from '@/lib/storage'
 import type { Course, CourseLevel, Filters, NewCourseInput, PaginationMode } from '@/lib/types'
 
@@ -101,7 +101,12 @@ function normalizeCourses(courses: Course[]): Course[] {
       ...course,
       level: LEVELS.includes(course.level) ? course.level : (original?.level ?? 'beginner'),
       rating: typeof course.rating === 'number' ? course.rating : (original?.rating ?? 0),
-      tech: Array.isArray(course.tech) ? course.tech.filter(isTechIconKey) : original?.tech
+      tech: Array.isArray(course.tech) ? course.tech.filter(isTechIconKey) : original?.tech,
+      // Стиль — не дані користувача: для вбудованих курсів завжди беремо актуальний градієнт з вихідних даних,
+      // інакше після зміни палітри повернуті користувачі бачили б стару версію зі свого LocalStorage
+      gradientClasses:
+        original?.gradientClasses ??
+        (typeof course.gradientClasses === 'string' && course.gradientClasses ? course.gradientClasses : DEFAULT_COURSE_GRADIENT)
     }
   })
 }

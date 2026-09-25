@@ -32,6 +32,11 @@ export interface Course {
   icon: string
   /** Ключі логотипів технологій (див. lib/courseIcons.ts) */
   tech?: TechIconKey[]
+  /**
+   * Tailwind-класи градієнта шапки картки у фірмових кольорах технології.
+   * Пишуться повністю (`from-yellow-400`, а не `from-${color}-400`), щоб Tailwind їх знайшов під час збірки.
+   */
+  gradientClasses: string
   enrolled: boolean
   progress: number
   level: CourseLevel

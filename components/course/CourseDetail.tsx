@@ -19,8 +19,8 @@ export function CourseDetail({ course }: { course: Course }) {
   return (
     <div className="course-detail">
       <div className="mb-4 flex justify-center">
-        <div className="flex h-28 min-w-28 items-center justify-center rounded-3xl bg-gradient-to-br px-7 from-brand-500 via-brand-600 to-accent-500 shadow-lg dark:from-brand-700 dark:via-brand-800 dark:to-accent-700">
-          <CourseIcon course={course} size={56} className="text-white" />
+        <div className={`flex h-28 min-w-28 items-center justify-center rounded-3xl px-7 shadow-lg dark:brightness-90 ${course.gradientClasses}`}>
+          <CourseIcon course={course} size={56} className="text-white drop-shadow-md" />
         </div>
       </div>
       <h2>{course.title}</h2>
