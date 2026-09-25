@@ -1,139 +1,78 @@
 # 🎓 E-Learning Platform
 
-Інтерактивна платформа для онлайн-навчання з підтримкою курсів, тестів, валідації та багато іншого.
+Інтерактивна платформа для онлайн-навчання: каталог курсів, уроки з відео, тести, статистика прогресу та профіль користувача.
 
-## 🎨 Кольорова палітра (Пастельна)
+Побудовано на **Next.js 16 (App Router) + TypeScript + React 19**.
 
-- **Primary**: `#a7ffd8` (М'ятний)
-- **Secondary**: `#ffaa7f` (Персиковий)
-- **Accent**: `#ff9fdc` (Рожевий)
-- **Background**: `#ffffef` (Кремовий)
+## 🚀 Запуск
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build
+npm start          # запуск production build
+npm run lint       # ESLint
+npm run typecheck  # перевірка типів TypeScript
+```
+
+## 🗺️ Маршрути
+
+| URL | Сторінка |
+| --- | --- |
+| `/` | Каталог курсів: пошук, фільтри, сортування, створення курсу, пагінація |
+| `/courses/[id]` | Деталі курсу та список уроків |
+| `/courses/[id]/lessons/[lessonId]` | Перегляд уроку |
+| `/courses/[id]/test` | Тест по курсу |
+| `/my-courses` | Курси, на які записаний користувач |
+| `/progress` | Статистика та прогрес |
+| `/profile` | Форма профілю з валідацією |
 
 ## 📁 Структура проекту
 
 ```
 e-learning-platform/
-├── src/
-│   ├── main.js                 # Точка входу додатку
-│   ├── style.css               # Глобальні стилі
-│   │
-│   ├── components/             # UI компоненти
-│   │   ├── CourseCard.js       # Картка курсу
-│   │   ├── Navigation.js       # Навігація
-│   │   ├── SearchAndFilters.js # Пошук та фільтри
-│   │   └── Pagination.js       # Компоненти пагінації
-│   │
-│   ├── modules/                # Програмні модулі
-│   │   ├── errorHandling.js    # Обробка помилок (Модуль 8)
-│   │   ├── localStorage.js     # LocalStorage (Модуль 10)
-│   │   ├── validation.js       # Валідація форм (Модуль 5)
-│   │   ├── pagination.js       # Пагінація (Модуль 9)
-│   │   └── api.js              # API інтеграція (Модуль 6-7)
-│   │
-│   ├── utils/                  # Утиліти
-│   │   ├── dom.js              # DOM helpers (Модуль 2)
-│   │   └── notifications.js    # Toast нотифікації
-│   │
-│   ├── state/                  # Управління станом
-│   │   └── appState.js         # Глобальний стан
-│   │
-│   └── data/                   # Дані
-│       └── courses.js          # Масив курсів
-│
-├── index.html                  # HTML файл
-├── package.json                # Залежності
-├── vite.config.js              # Конфігурація Vite
-└── README.md                   # Документація
-
+├── app/                       # Next.js App Router
+│   ├── layout.tsx             # Кореневий layout: header, footer, провайдери
+│   ├── page.tsx               # Каталог курсів
+│   ├── courses/[id]/…         # Деталі курсу, урок, тест
+│   ├── my-courses/ progress/ profile/
+│   └── globals.css            # Глобальні стилі (пастельна палітра)
+├── components/                # React-компоненти
+│   ├── courses/               # Каталог: фільтри, форма, пагінація, демо-панелі
+│   ├── course/                # Деталі курсу, урок, тест
+│   └── …                      # Header, CourseCard, ProgressDashboard, ProfileForm
+├── context/
+│   ├── AppStateContext.tsx    # Глобальний стан (useReducer) + автозбереження
+│   └── ToastContext.tsx       # Bootstrap Toast нотифікації
+├── hooks/
+│   └── useFormValidation.ts   # Валідація форм (Constraint Validation API)
+└── lib/                       # Логіка без UI
+    ├── types.ts               # Доменні типи
+    ├── data/courses.ts        # Початкові курси
+    ├── courses.ts             # Фільтрація, сортування, пагінація, аналітика
+    ├── api.ts                 # Axios: інтерсептори, CRUD, кеш, retry, batch
+    ├── errors.ts              # Класи помилок, ErrorLogger, глобальні обробники
+    ├── storage.ts             # LocalStorage з TTL
+    └── validation.ts          # Правила валідації
 ```
 
-## 🚀 Модулі та функціональність
+## ✅ Модулі та функціональність
 
-### ✅ Модуль 1: Vite та Git
-- Налаштування проекту з Vite
-- Git версіонування
+1. **Next.js та Git** — App Router, файлова маршрутизація, TypeScript (strict).
+2. **Компоненти** — декларативний рендеринг через React замість ручної роботи з DOM.
+3. **Події користувача** — пошук з debounce, фільтри, `CustomEvent`, клавіатурні скорочення:
+   `Ctrl/Cmd + K` — пошук, `Esc` — скинути пошук / закрити форму, `1–4` — перехід між сторінками.
+4. **Масиви та об'єкти** — `reduce`, `map`, `filter`, `sort`, `Set` для статистики.
+5. **Форми та валідація** — Constraint Validation API + власні правила, real-time валідація.
+6. **Bootstrap та Axios** — Bootstrap 5, Axios з request/response інтерсепторами.
+7. **Взаємодія з API** — кеш з `AbortController`, пагінація API, batch (`Promise.allSettled`), retry з exponential backoff.
+8. **Обробка помилок** — власні класи помилок, `ErrorLogger`, глобальні обробники.
+9. **Пагінація** — класична, «Load More» та нескінченний скрол (`IntersectionObserver`).
+10. **LocalStorage** — автозбереження стану та прогресу, TTL, імпорт/експорт JSON.
 
-### ✅ Модуль 2: Робота з DOM
-- Утиліти для створення елементів
-- Маніпуляція DOM деревом
+## 🎨 Кольорова палітра
 
-### ✅ Модуль 3: Події користувача
-- Event listeners
-- Клавіатурна навігація
-- Custom events
-
-### ✅ Модуль 4: Масиви та об'єкти
-- Фільтрація та сортування
-- Map, filter, reduce
-
-### ✅ Модуль 5: HTML-форми та валідація
-- Constraint Validation API
-- Користувацькі правила валідації
-- Real-time валідація
-
-### ✅ Модуль 6: Bootstrap та Axios
-- Bootstrap 5 компоненти
-- Axios HTTP клієнт
-- Request/Response interceptors
-
-### ✅ Модуль 7: Взаємодія з API
-- Кешування з AbortController
-- Пагінація API
-- Optimistic updates
-- Batch requests
-- Retry з exponential backoff
-
-### ✅ Модуль 8: Обробка помилок
-- Custom error classes
-- ErrorLogger
-- Global error handlers
-- Axios error handling
-
-### ✅ Модуль 9: Пагінація
-- Класична пагінація
-- Load More кнопка
-- Infinite Scroll з Intersection Observer
-
-### ✅ Модуль 10: LocalStorage
-- Збереження стану
-- TTL (Time To Live)
-- Import/Export даних
-- Автозбереження
-
-## 🛠️ Технології
-
-- **Vite** - Build tool
-- **Vanilla JavaScript** - ES6+ модулі
-- **Bootstrap 5** - UI framework
-- **Axios** - HTTP клієнт
-- **LocalStorage API** - Кешування
-- **Intersection Observer** - Infinite scroll
-
-## 📦 Встановлення
-
-```bash
-npm install
-npm run dev
-```
-
-## 🎯 Особливості
-
-- 🎨 Пастельна кольорова схема
-- 📱 Responsive дизайн
-- ♿ Accessibility (ARIA)
-- 🔄 Автозбереження прогресу
-- 🌐 Три режими пагінації
-- ⚠️ Комплексна обробка помилок
-- 💾 Кешування даних
-- 🎨 Bootstrap Toast нотифікації
-
-## 📊 Статистика
-
-- **20 курсів** для тестування
-- **10 модулів** реалізовано
-- **4300+ рядків** коду
-- **Модульна архітектура**
-
-## 🤝 Автор
-
-Створено як навчальний проект для демонстрації всіх модулів JavaScript розробки.
+- **Primary**: `#a7ffd8` (М'ятний)
+- **Secondary**: `#ffaa7f` (Персиковий)
+- **Accent**: `#ff9fdc` (Рожевий)
+- **Background**: `#ffffef` (Кремовий)
