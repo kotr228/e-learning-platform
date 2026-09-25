@@ -44,7 +44,7 @@ export function ProgressDashboard() {
 
   return (
     <div id="progress-stats">
-      <section className="mb-5">
+      <section className="mb-12">
         <h3 className="section-title">📊 Загальна статистика</h3>
         <div className="stats-grid">
           {cards.map(({ icon, value, label, tone }) => (
@@ -60,12 +60,12 @@ export function ProgressDashboard() {
       </section>
 
       {topInstructors.length > 0 && (
-        <section className="mb-5">
+        <section className="mb-12">
           <h3 className="section-title">👨‍🏫 Топ викладачів</h3>
-          <div className="d-grid gap-3">
+          <div className="grid gap-4">
             {topInstructors.map(({ instructor, coursesCount, enrolledCount, courses: titles }, index) => (
               <div key={instructor} className="panel mb-0">
-                <div className="d-flex justify-content-between align-items-center mb-2">
+                <div className="mb-2 flex items-center justify-between">
                   <strong>
                     {index + 1}. {instructor}
                   </strong>
@@ -73,10 +73,10 @@ export function ProgressDashboard() {
                     {coursesCount} {pluralCourses(coursesCount)}
                   </span>
                 </div>
-                <div className="text-muted small">
+                <div className="text-sm text-slate-500 dark:text-slate-400">
                   Записано на {enrolledCount} з {coursesCount}
                 </div>
-                <div className="text-muted small">{titles.join(', ')}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">{titles.join(', ')}</div>
               </div>
             ))}
           </div>
@@ -84,17 +84,17 @@ export function ProgressDashboard() {
       )}
 
       {enrolled.length > 0 ? (
-        <section className="mb-5">
+        <section className="mb-12">
           <h3 className="section-title">📈 Детальний прогрес ({stats.avgProgress}% середній)</h3>
           {enrolled.map(course => {
             const done = course.lessons.filter(l => l.completed).length
             return (
               <div key={course.id} className="panel progress-card">
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="mb-4 flex items-center justify-between">
                   <h4 className="m-0">
                     {course.icon} {course.title}
                   </h4>
-                  <span className="fw-bold">{course.progress}%</span>
+                  <span className="font-bold">{course.progress}%</span>
                 </div>
                 <div
                   className="progress-track"
@@ -106,7 +106,7 @@ export function ProgressDashboard() {
                 >
                   <div className="progress-fill" style={{ width: `${course.progress}%` }} />
                 </div>
-                <div className="text-muted small mt-2">
+                <div className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                   {done} з {course.lessons.length} уроків завершено
                 </div>
               </div>

@@ -5,6 +5,7 @@
  */
 
 import { useRef, useState, type ChangeEvent, type ReactNode } from 'react'
+import { buttonClass } from '@/components/ui/styles'
 import { useAppState, type ExportedData } from '@/context/AppStateContext'
 import { useNotify } from '@/context/ToastContext'
 import {
@@ -20,8 +21,18 @@ import { downloadJson, readFileAsText } from '@/lib/download'
 import { AppError, ValidationError, errorLogger } from '@/lib/errors'
 import { LocalStorageManager, getStorageStats } from '@/lib/storage'
 
+const TONE = {
+  primary: 'hover:border-brand-400 hover:text-brand-700 dark:hover:text-brand-300',
+  secondary: '',
+  info: 'hover:border-sky-400 hover:text-sky-700 dark:hover:text-sky-300',
+  warning: 'hover:border-amber-400 hover:text-amber-700 dark:hover:text-amber-300',
+  danger: 'hover:border-red-400 hover:text-red-600 dark:hover:text-red-400',
+  success: 'hover:border-accent-500 hover:text-accent-700 dark:hover:text-accent-400',
+  dark: 'hover:border-slate-500 hover:text-slate-900 dark:hover:text-white'
+} as const
+
 /** Кнопка, що блокується на час виконання асинхронної дії */
-function DemoButton({ variant, onClick, children }: { variant: string; onClick: () => unknown; children: ReactNode }) {
+function DemoButton({ variant, onClick, children }: { variant: keyof typeof TONE; onClick: () => unknown; children: ReactNode }) {
   const [busy, setBusy] = useState(false)
 
   const handleClick = async () => {
@@ -34,17 +45,17 @@ function DemoButton({ variant, onClick, children }: { variant: string; onClick: 
   }
 
   return (
-    <button type="button" className={`btn btn-sm btn-outline-${variant}`} onClick={handleClick} disabled={busy}>
+    <button type="button" className={buttonClass('outline', 'sm', TONE[variant])} onClick={handleClick} disabled={busy}>
       {children}
     </button>
   )
 }
 
-function DemoRow({ title, tone, children }: { title: string; tone: 'api' | 'error' | 'storage'; children: ReactNode }) {
+function DemoRow({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className={`demo-row demo-row-${tone}`}>
-      <small className="text-muted w-100">{title}</small>
-      {children}
+    <div>
+      <h4 className="mb-2 text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">{title}</h4>
+      <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   )
 }
@@ -55,7 +66,7 @@ export function ApiDemoPanel() {
   const notify = useNotify()
 
   return (
-    <DemoRow title="🧪 API Демонстрація (Модуль 7):" tone="api">
+    <DemoRow title="API · Модуль 7">
       <DemoButton
         variant="primary"
         onClick={async () => {
@@ -129,7 +140,7 @@ export function ErrorDemoPanel() {
   const notify = useNotify()
 
   return (
-    <DemoRow title="⚠️ Обробка помилок (Модуль 8):" tone="error">
+    <DemoRow title="Обробка помилок · Модуль 8">
       <DemoButton
         variant="danger"
         onClick={async () => {
@@ -221,7 +232,7 @@ export function StorageDemoPanel() {
   }
 
   return (
-    <DemoRow title="💾 LocalStorage (Модуль 10):" tone="storage">
+    <DemoRow title="LocalStorage · Модуль 10">
       <DemoButton
         variant="success"
         onClick={() =>

@@ -1,825 +1,565 @@
-/* =========================================
-   Глобальні змінні (пастельна палітра)
-   ========================================= */
-:root {
-  --primary-color: #a7ffd8;
-  --primary-strong: #0e8a5f;
-  --secondary-color: #ffaa7f;
-  --accent-color: #ff9fdc;
-  --bg-color: #ffffef;
-  --success-color: #1f9d6b;
-  --danger-color: #d6336c;
-  --warning-color: #e8590c;
-  --text-color: #2d3748;
-  --muted-color: #6b7280;
-  --border-color: #e2e8f0;
-  --surface: #ffffff;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-  --radius: 12px;
-
-  --gradient-primary: linear-gradient(135deg, #a7ffd8 0%, #ffaa7f 100%);
-  --gradient-secondary: linear-gradient(135deg, #ff9fdc 0%, #ffaa7f 100%);
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.container {
-  max-width: 1200px;
-}
-
-a {
-  color: var(--primary-strong);
-}
-
-/* =========================================
-   Buttons (Bootstrap overrides)
-   ========================================= */
-.btn {
-  font-weight: 600;
-  border-radius: 8px;
-}
-
-.btn-primary {
-  --bs-btn-color: var(--text-color);
-  --bs-btn-bg: var(--primary-color);
-  --bs-btn-border-color: var(--primary-color);
-  --bs-btn-hover-color: var(--text-color);
-  --bs-btn-hover-bg: #7df0c0;
-  --bs-btn-hover-border-color: #7df0c0;
-  --bs-btn-active-color: var(--text-color);
-  --bs-btn-active-bg: #5fe3ad;
-  --bs-btn-active-border-color: #5fe3ad;
-  --bs-btn-disabled-color: var(--text-color);
-  --bs-btn-disabled-bg: var(--primary-color);
-  --bs-btn-disabled-border-color: var(--primary-color);
-  --bs-btn-focus-shadow-rgb: 14, 138, 95;
-}
-
-.btn-outline-primary {
-  --bs-btn-color: var(--primary-strong);
-  --bs-btn-border-color: var(--primary-strong);
-  --bs-btn-hover-color: var(--text-color);
-  --bs-btn-hover-bg: var(--primary-color);
-  --bs-btn-hover-border-color: var(--primary-strong);
-  --bs-btn-active-color: var(--text-color);
-  --bs-btn-active-bg: #7df0c0;
-  --bs-btn-active-border-color: var(--primary-strong);
-  --bs-btn-disabled-color: var(--primary-strong);
-  --bs-btn-disabled-border-color: var(--primary-strong);
-  --bs-btn-focus-shadow-rgb: 14, 138, 95;
-}
-
-.btn-back {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: var(--muted-color);
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #4b5563;
-  --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #374151;
-  margin-bottom: 1.5rem;
-}
-
-/* =========================================
-   Header & Navigation
-   ========================================= */
-#header {
-  background: var(--gradient-primary);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.navbar {
-  padding: 1rem 0;
-}
-
-.navbar .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-color);
-  text-decoration: none;
-}
-
-.nav-menu {
-  display: flex;
-  list-style: none;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-link {
-  color: var(--text-color);
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: var(--text-color);
-  background-color: rgba(255, 255, 255, 0.55);
-  transform: translateY(-2px);
-}
-
-/* =========================================
-   Main content
-   ========================================= */
-#main-content {
-  flex: 1;
-  padding: 2rem 0;
-}
-
-.page {
-  animation: fadeIn 0.3s ease-in;
-}
-
-.page > h2 {
-  display: inline-block;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  font-weight: 700;
-  border-bottom: 4px solid var(--primary-color);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.panel {
-  background: var(--surface);
-  padding: 1.5rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  margin-bottom: 2rem;
-}
-
-.panel-title,
-.section-title {
-  color: var(--primary-strong);
-  margin-bottom: 1.5rem;
-}
-
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 3rem;
-  background: var(--surface);
-  border-radius: var(--radius);
-}
-
-.empty-state-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-}
-
-.empty-state p {
-  font-size: 1.2rem;
-  color: var(--muted-color);
-  margin: 0;
-}
-
-/* =========================================
-   Catalog controls (Модуль 3)
-   ========================================= */
-.controls-row {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.controls-label {
-  font-weight: 600;
-}
-
-.search-input {
-  flex: 1;
-  min-width: 250px;
-}
-
-.demo-row {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  flex-wrap: wrap;
-  border-top: 2px dashed var(--border-color);
-}
-
-.demo-row-error {
-  border-top-color: #dc3545;
-}
-
-.demo-row-storage {
-  border-top-color: #10b981;
-}
-
-#results-count {
-  margin-bottom: 1rem;
-  color: var(--muted-color);
-  font-weight: 600;
-}
-
-/* =========================================
-   Courses grid & card
-   ========================================= */
-.courses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.course-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  border-left: 4px solid transparent;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  cursor: pointer;
-}
-
-.course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  border-left-color: var(--primary-strong);
-}
-
-.course-card-image {
-  height: 180px;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-}
-
-.course-card-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 1.5rem;
-}
-
-.course-card h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.25rem;
-}
-
-.course-card-title {
-  color: var(--text-color);
-  text-decoration: none;
-}
-
-.course-card-title:hover {
-  text-decoration: underline;
-}
-
-.course-card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
-  font-size: 0.875rem;
-  color: var(--muted-color);
-}
-
-.course-card p {
-  flex: 1;
-  color: var(--muted-color);
-  margin-bottom: 1rem;
-  line-height: 1.5;
-}
-
-.course-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-}
-
-.course-progress {
-  font-size: 0.875rem;
-  color: var(--primary-strong);
-  font-weight: 600;
-}
-
-/* =========================================
-   Course detail, lesson & test
-   ========================================= */
-.course-detail-icon,
-.test-result-icon {
-  text-align: center;
-  font-size: 5rem;
-  margin-bottom: 1rem;
-}
-
-.course-detail h2,
-.test-result h2 {
-  text-align: center;
-}
-
-.course-detail-description {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-}
-
-.lessons-list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2rem;
-}
-
-.lesson-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  background: var(--surface);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.lesson-item h4 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.video-wrapper {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  margin-bottom: 2rem;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: #000;
-}
-
-.video-wrapper iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.lesson-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.lesson-actions .btn-back {
-  margin-bottom: 0;
-}
-
-.lesson-done {
-  color: var(--success-color);
-  font-weight: 600;
-}
-
-.test-question {
-  background: var(--surface);
-  padding: 2rem;
-  margin-bottom: 1.5rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.test-question legend {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-}
-
-.test-option {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-  background: #f9fafb;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.test-option:hover,
-.test-option.selected {
-  border-color: var(--primary-color);
-  background: #f0fff8;
-}
-
-.test-score {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 1.5rem 0;
-}
-
-.answer-result {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid;
-}
-
-.answer-result.correct {
-  background: #f0fdf4;
-  border-left-color: var(--success-color);
-}
-
-.answer-result.correct span {
-  color: var(--success-color);
-}
-
-.answer-result.incorrect {
-  background: #fef2f2;
-  border-left-color: var(--danger-color);
-}
-
-.answer-result.incorrect span {
-  color: var(--danger-color);
-}
-
-.text-success-soft {
-  color: var(--success-color);
-}
-
-.text-warning-soft {
-  color: var(--warning-color);
-}
-
-/* =========================================
-   Progress (Модуль 4)
-   ========================================= */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-}
-
-.stat-card {
-  color: #fff;
-  padding: 1.5rem;
-  border-radius: var(--radius);
-  text-align: center;
-  box-shadow: var(--shadow);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-.stat-violet { background: linear-gradient(135deg, #667eea, #764ba2); }
-.stat-mint { background: linear-gradient(135deg, #3ccf99, #f08a5d); }
-.stat-green { background: linear-gradient(135deg, #10b981, #059669); }
-.stat-peach { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.stat-pink { background: linear-gradient(135deg, #f093fb, #f5576c); }
-.stat-sky { background: linear-gradient(135deg, #4facfe, #0891b2); }
-
-.stat-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.stat-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.stat-label {
-  opacity: 0.95;
-  font-size: 0.875rem;
-}
-
-.badge-soft {
-  background: var(--primary-color);
-  color: var(--text-color);
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.progress-card {
-  margin-bottom: 1rem;
-}
-
-.progress-card h4 {
-  font-size: 1.1rem;
-}
-
-.progress-track {
-  background: #e5e7eb;
-  height: 12px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  transition: width 0.3s ease;
-}
-
-/* =========================================
-   Forms & validation (Модуль 5)
-   ========================================= */
-.profile-panel {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.form-section {
-  margin-bottom: 2rem;
-}
-
-.form-section legend {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--primary-color);
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.form-group input:not([type='range']):not([type='checkbox']),
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  font-family: inherit;
-  background: #fff;
-  transition: border-color 0.3s;
-}
-
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid var(--border-color);
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-}
-
-.checkbox-label input {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--primary-strong);
-}
-
-.motivation-value {
-  color: var(--primary-strong);
-  font-weight: 700;
-}
-
-input.field-error,
-textarea.field-error,
-select.field-error {
-  border-color: var(--danger-color) !important;
-  background-color: #fef2f2 !important;
-  animation: shake 0.3s ease-in-out;
-}
-
-input.field-valid,
-textarea.field-valid,
-select.field-valid {
-  border-color: var(--success-color) !important;
-  background-color: #f0fdf4 !important;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--primary-strong) !important;
-  box-shadow: 0 0 0 3px rgba(14, 138, 95, 0.15);
-}
-
-.error-message {
-  color: var(--danger-color);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  display: block;
-  font-weight: 500;
-  animation: slideDown 0.2s ease-out;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-input[type='range'] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 8px;
-  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  border-radius: 5px;
-  outline: none;
-  margin: 10px 0;
-}
-
-input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border: 3px solid var(--primary-strong);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-input[type='range']::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border: 3px solid var(--primary-strong);
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-input[type='range']::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-/* =========================================
-   Pagination (Модуль 9)
-   ========================================= */
-.pagination-mode-selector {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  animation: slideDown 0.3s ease-out;
-}
-
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 2rem;
-  animation: fadeIn 0.3s ease-in;
-}
-
-.pagination-container .btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-.page-number {
-  min-width: 2.5rem;
-}
-
-.pagination-ellipsis {
-  display: flex;
-  align-items: center;
-  padding: 0 0.5rem;
-  color: var(--muted-color);
-}
-
-.infinite-scroll-sentinel {
-  height: 20px;
-  margin: 2rem 0;
-}
-
-#load-more-container .btn {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#load-more-container .btn:hover:not(:disabled) {
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* =========================================
-   Footer
-   ========================================= */
-#footer {
-  background-color: #1f2937;
-  color: #fff;
-  padding: 2rem 0;
-  text-align: center;
-  margin-top: auto;
-}
-
-#footer p {
-  margin: 0;
-  opacity: 0.9;
-}
-
-/* =========================================
-   Responsive
-   ========================================= */
-@media (max-width: 768px) {
-  .navbar .container {
-    flex-direction: column;
+/*
+ * Порядок каскадних шарів: утиліти Tailwind завжди перемагають legacy-стилі,
+ * незалежно від специфічності селекторів.
+ */
+@layer theme, base, legacy, components, utilities;
+
+@import 'tailwindcss';
+
+/* Темна тема керується класом .dark на <html> (див. ThemeToggle) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Фірмові кольори з логотипу: глибокий синій (brand) та яскравий зелений (accent) */
+@theme {
+  --color-brand-50: #eff6fc;
+  --color-brand-100: #dcebf8;
+  --color-brand-200: #b9d7f0;
+  --color-brand-300: #8bbde5;
+  --color-brand-400: #519bd4;
+  --color-brand-500: #2a7fc2;
+  --color-brand-600: #1d67a8;
+  --color-brand-700: #1a5489;
+  --color-brand-800: #184672;
+  --color-brand-900: #173b5f;
+  --color-brand-950: #0f253e;
+
+  --color-accent-50: #f3faeb;
+  --color-accent-100: #e3f4d0;
+  --color-accent-200: #c8e9a6;
+  --color-accent-300: #a5da72;
+  --color-accent-400: #86c94a;
+  --color-accent-500: #6bb52e;
+  /* 600+ достатньо темні для білого тексту (контраст ≥ 4.5:1) */
+  --color-accent-600: #3a7f18;
+  --color-accent-700: #30691a;
+  --color-accent-800: #2a5419;
+  --color-accent-900: #25471a;
+  --color-accent-950: #112609;
+
+  --font-sans: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Стилі сторінок, які ще не перенесені на Tailwind */
+@layer legacy {
+  /* =========================================
+     Глобальні змінні (пастельна палітра)
+     ========================================= */
+  :root {
+    --primary-color: var(--color-brand-100);
+    --primary-strong: var(--color-brand-600);
+    --secondary-color: var(--color-accent-300);
+    --accent-color: var(--color-accent-500);
+    --success-color: var(--color-accent-600);
+    --danger-color: #d6336c;
+    --warning-color: #e8590c;
+    --text-color: var(--color-slate-800);
+    --muted-color: var(--color-slate-500);
+    --border-color: var(--color-slate-200);
+    --surface: #ffffff;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+    --radius: 12px;
   }
 
-  .nav-menu {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.25rem;
+  .dark {
+    --primary-color: color-mix(in oklab, var(--color-brand-500) 25%, transparent);
+    --primary-strong: var(--color-brand-300);
+    --text-color: var(--color-slate-100);
+    --muted-color: var(--color-slate-400);
+    --border-color: var(--color-slate-700);
+    --surface: var(--color-slate-900);
   }
 
-  .courses-grid {
-    grid-template-columns: 1fr;
+  a {
+    color: var(--primary-strong);
+  }
+
+  /* Базова типографіка сторінок (Tailwind preflight скидає стилі заголовків) */
+  .page h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+
+  .page h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+
+  .page h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .page p {
+    margin-bottom: 1rem;
+  }
+
+  .empty-state a {
+    text-decoration: underline;
+  }
+
+  /* =========================================
+     Main content
+     ========================================= */
+  #main-content {
+    flex: 1;
+    padding: 2rem 0;
+  }
+
+  .page {
+    animation: fadeIn 0.3s ease-in;
   }
 
   .page > h2 {
-    font-size: 1.5rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+    border-bottom: 4px solid var(--color-accent-400);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .panel {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+
+  .panel-title,
+  .section-title {
+    color: var(--primary-strong);
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+  }
+
+  .empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .empty-state p {
+    font-size: 1.2rem;
+    color: var(--muted-color);
+    margin: 0;
+  }
+
+  /* =========================================
+     Course detail, lesson & test
+     ========================================= */
+  .course-detail-icon,
+  .test-result-icon {
+    text-align: center;
+    font-size: 5rem;
+    margin-bottom: 1rem;
+  }
+
+  .course-detail h2,
+  .test-result h2 {
+    text-align: center;
+  }
+
+  .course-detail-description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .lessons-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
   }
 
   .lesson-item {
-    flex-direction: column;
-    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: var(--surface);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
+  .lesson-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .video-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 2rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .lesson-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .lesson-done {
+    color: var(--success-color);
+    font-weight: 600;
+  }
+
+  .test-question {
+    background: var(--surface);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .test-question legend {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  .test-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    background: color-mix(in oklab, var(--muted-color) 8%, transparent);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .test-option:hover,
+  .test-option.selected {
+    border-color: var(--primary-strong);
+    background: var(--primary-color);
+  }
+
+  .test-score {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 1.5rem 0;
+  }
+
+  .answer-result {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid;
+  }
+
+  .answer-result.correct {
+    background: color-mix(in oklab, var(--success-color) 10%, var(--surface));
+    border-left-color: var(--success-color);
+  }
+
+  .answer-result.correct span {
+    color: var(--success-color);
+  }
+
+  .answer-result.incorrect {
+    background: color-mix(in oklab, var(--danger-color) 10%, var(--surface));
+    border-left-color: var(--danger-color);
+  }
+
+  .answer-result.incorrect span {
+    color: var(--danger-color);
+  }
+
+  .text-success-soft {
+    color: var(--success-color);
+  }
+
+  .text-warning-soft {
+    color: var(--warning-color);
+  }
+
+  /* =========================================
+     Progress (Модуль 4)
+     ========================================= */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .stat-card {
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .stat-violet { background: linear-gradient(135deg, #667eea, #764ba2); }
+  .stat-mint { background: linear-gradient(135deg, var(--color-brand-500), var(--color-accent-600)); }
+  .stat-green { background: linear-gradient(135deg, #10b981, #059669); }
+  .stat-peach { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .stat-pink { background: linear-gradient(135deg, #f093fb, #f5576c); }
+  .stat-sky { background: linear-gradient(135deg, #4facfe, #0891b2); }
+
+  .stat-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    opacity: 0.95;
+    font-size: 0.875rem;
+  }
+
+  .badge-soft {
+    background: var(--primary-color);
+    color: var(--text-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .progress-card {
+    margin-bottom: 1rem;
+  }
+
+  .progress-card h4 {
+    font-size: 1.1rem;
+  }
+
+  .progress-track {
+    background: var(--border-color);
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-brand-500), var(--color-accent-400));
+    transition: width 0.3s ease;
+  }
+
+  /* =========================================
+     Forms & validation (Модуль 5)
+     ========================================= */
+  .profile-panel {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .form-section {
+    margin-bottom: 2rem;
+  }
+
+  .form-section legend {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .form-group input:not([type='range']):not([type='checkbox']),
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text-color);
+    transition: border-color 0.3s;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border-color);
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  .checkbox-label input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-strong);
+  }
+
+  .motivation-value {
+    color: var(--primary-strong);
+    font-weight: 700;
+  }
+
+  input.field-error,
+  textarea.field-error,
+  select.field-error {
+    border-color: var(--danger-color) !important;
+    background-color: color-mix(in oklab, var(--danger-color) 10%, var(--surface)) !important;
+    animation: shake 0.3s ease-in-out;
+  }
+
+  input.field-valid,
+  textarea.field-valid,
+  select.field-valid {
+    border-color: var(--success-color) !important;
+    background-color: color-mix(in oklab, var(--success-color) 10%, var(--surface)) !important;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--primary-strong) !important;
+    box-shadow: 0 0 0 3px rgba(14, 138, 95, 0.15);
+  }
+
+  .error-message {
+    color: var(--danger-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+    font-weight: 500;
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to right, var(--color-brand-500), var(--color-accent-400));
+    border-radius: 5px;
+    outline: none;
+    margin: 10px 0;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 3px solid var(--primary-strong);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  input[type='range']::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 3px solid var(--primary-strong);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  input[type='range']::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  /* =========================================
+     Responsive
+     ========================================= */
+  @media (max-width: 768px) {
+    .page > h2 {
+      font-size: 1.5rem;
+    }
+
+    .lesson-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
   }
 }

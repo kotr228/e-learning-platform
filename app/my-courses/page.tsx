@@ -1,6 +1,6 @@
 'use client'
 
-import { CourseCard } from '@/components/CourseCard'
+import { CourseCard } from '@/components/courses/CourseCard'
 import { EmptyState } from '@/components/EmptyState'
 import { PageLoading } from '@/components/PageLoading'
 import { useAppState } from '@/context/AppStateContext'
@@ -19,11 +19,13 @@ export default function MyCoursesPage() {
           Ви ще не записані на жоден курс.
         </EmptyState>
       ) : (
-        <div className="courses-grid">
+        <ul className="m-0 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {enrolled.map(course => (
-            <CourseCard key={course.id} course={course} />
+            <li key={course.id} className="flex [&>*]:flex-1">
+              <CourseCard course={course} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </section>
   )

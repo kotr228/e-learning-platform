@@ -5,6 +5,7 @@ import { useState, type FormEvent } from 'react'
 import { useNotify } from '@/context/ToastContext'
 import { gradeTest } from '@/lib/courses'
 import type { Course } from '@/lib/types'
+import { buttonClass } from '@/components/ui/styles'
 
 type Result = ReturnType<typeof gradeTest>
 
@@ -42,8 +43,8 @@ export function CourseTest({ course }: { course: Course }) {
           {result.score} з {questions.length} правильних ({result.percentage}%)
         </p>
 
-        <div className="panel text-start">
-          <h3 className="text-center mb-4">Результати по питаннях:</h3>
+        <div className="panel text-left">
+          <h3 className="mb-6 text-center">Результати по питаннях:</h3>
           {result.answers.map((a, i) => (
             <div key={i} className={`answer-result ${a.isCorrect ? 'correct' : 'incorrect'}`}>
               <strong>Питання {i + 1}:</strong> {a.question}
@@ -54,11 +55,11 @@ export function CourseTest({ course }: { course: Course }) {
         </div>
 
         <div className="lesson-actions">
-          <Link href={`/courses/${course.id}`} className="btn btn-back">
+          <Link href={`/courses/${course.id}`} className={buttonClass('neutral')}>
             ← Назад до курсу
           </Link>
           {!result.passed && (
-            <button type="button" className="btn btn-primary" onClick={onRetry}>
+            <button type="button" className={buttonClass('primary')} onClick={onRetry}>
               🔄 Спробувати ще раз
             </button>
           )}
@@ -70,7 +71,7 @@ export function CourseTest({ course }: { course: Course }) {
   return (
     <div className="test-container">
       <h2>📝 Тест: {course.title}</h2>
-      <p className="text-muted mb-4">Відповідьте на всі питання та натисніть &quot;Завершити тест&quot;</p>
+      <p className="mb-6 text-slate-500 dark:text-slate-400">Відповідьте на всі питання та натисніть &quot;Завершити тест&quot;</p>
 
       <form onSubmit={onSubmit}>
         {questions.map((q, qIndex) => (
@@ -94,10 +95,10 @@ export function CourseTest({ course }: { course: Course }) {
         ))}
 
         <div className="lesson-actions">
-          <Link href={`/courses/${course.id}`} className="btn btn-back">
+          <Link href={`/courses/${course.id}`} className={buttonClass('neutral')}>
             Скасувати
           </Link>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className={buttonClass('success')}>
             ✓ Завершити тест
           </button>
         </div>

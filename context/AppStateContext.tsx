@@ -17,7 +17,7 @@ import {
 import { initialCourses } from '@/lib/data/courses'
 import { createCustomCourse, withCompletedLesson } from '@/lib/courses'
 import { LocalStorageManager } from '@/lib/storage'
-import type { Course, Filters, NewCourseInput, PaginationMode } from '@/lib/types'
+import type { Course, CourseLevel, Filters, NewCourseInput, PaginationMode } from '@/lib/types'
 
 // =========================================
 // State
@@ -34,7 +34,8 @@ export interface AppState {
 
 export const DEFAULT_FILTERS: Filters = {
   searchQuery: '',
-  filterEnrolled: 'all',
+  status: 'all',
+  level: 'all',
   sortBy: 'default'
 }
 
@@ -69,6 +70,40 @@ type Action =
   | { type: 'DELETE_COURSE'; courseId: number }
   | { type: 'COMPLETE_LESSON'; courseId: number; lessonId: number }
 
+// =========================================
+// Міграція даних, збережених попередніми версіями
+// =========================================
+
+const LEVELS: CourseLevel[] = ['beginner', 'intermediate', 'advanced']
+const FILTER_VALUES: { [K in Exclude<keyof Filters, 'searchQuery'>]: readonly Filters[K][] } = {
+  status: ['all', 'available', 'in-progress', 'completed'],
+  level: ['all', ...LEVELS],
+  sortBy: ['default', 'newest', 'rating', 'title', 'duration']
+}
+
+/** Відкидає невідомі значення фільтрів (наприклад, старе `filterEnrolled`) */
+function normalizeFilters(saved: Partial<Filters> | undefined): Partial<Filters> {
+  if (!saved) return {}
+  const result: Partial<Filters> = {}
+  if (typeof saved.searchQuery === 'string') result.searchQuery = saved.searchQuery
+  if (FILTER_VALUES.status.includes(saved.status!)) result.status = saved.status
+  if (FILTER_VALUES.level.includes(saved.level!)) result.level = saved.level
+  if (FILTER_VALUES.sortBy.includes(saved.sortBy!)) result.sortBy = saved.sortBy
+  return result
+}
+
+/** Доповнює курси полями, яких не було в старих збереженнях */
+function normalizeCourses(courses: Course[]): Course[] {
+  return courses.map(course => {
+    const original = initialCourses.find(c => c.id === course.id && !course.isCustom && !course.isFromAPI)
+    return {
+      ...course,
+      level: LEVELS.includes(course.level) ? course.level : (original?.level ?? 'beginner'),
+      rating: typeof course.rating === 'number' ? course.rating : (original?.rating ?? 0)
+    }
+  })
+}
+
 function updateCourse(courses: Course[], courseId: number, update: (c: Course) => Course): Course[] {
   return courses.map(c => (c.id === courseId ? update(c) : c))
 }
@@ -76,12 +111,12 @@ function updateCourse(courses: Course[], courseId: number, update: (c: Course) =
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'HYDRATE': {
-      const courses = action.courses ?? state.courses
+      const courses = action.courses ? normalizeCourses(action.courses) : state.courses
       const maxId = Math.max(0, ...courses.map(c => c.id))
       return {
         ...state,
         courses,
-        filters: { ...state.filters, ...action.saved?.filters },
+        filters: { ...DEFAULT_FILTERS, ...normalizeFilters(action.saved?.filters) },
         nextCourseId: Math.max(action.saved?.nextCourseId ?? 0, maxId + 1, state.nextCourseId),
         pagination: { ...state.pagination, currentPage: 1 },
         hydrated: true

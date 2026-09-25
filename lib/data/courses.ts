@@ -14,6 +14,8 @@ export const initialCourses: Course[] = [
     icon: '💻',
     enrolled: false,
     progress: 0,
+    level: 'beginner',
+    rating: 4.8,
     lessons: [
       { id: 1, title: 'Змінні та типи даних', duration: '45 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Умовні конструкції', duration: '50 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
@@ -45,6 +47,8 @@ export const initialCourses: Course[] = [
     icon: '🎨',
     enrolled: false,
     progress: 0,
+    level: 'beginner',
+    rating: 4.7,
     lessons: [
       { id: 1, title: 'Структура HTML документа', duration: '40 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'CSS селектори', duration: '45 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
@@ -70,6 +74,8 @@ export const initialCourses: Course[] = [
     icon: '⚛️',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.9,
     lessons: [
       { id: 1, title: 'Компоненти та Props', duration: '60 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'State та життєвий цикл', duration: '75 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
@@ -95,6 +101,8 @@ export const initialCourses: Course[] = [
     icon: '🚀',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.6,
     lessons: [
       { id: 1, title: 'Вступ до Node.js', duration: '50 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Express фреймворк', duration: '65 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
@@ -120,6 +128,8 @@ export const initialCourses: Course[] = [
     icon: '📦',
     enrolled: false,
     progress: 0,
+    level: 'beginner',
+    rating: 4.5,
     lessons: [
       { id: 1, title: 'Основи Git', duration: '45 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Робота з GitHub', duration: '50 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -144,6 +154,8 @@ export const initialCourses: Course[] = [
     icon: '📘',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.7,
     lessons: [
       { id: 1, title: 'Типи даних', duration: '55 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Інтерфейси', duration: '60 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -168,6 +180,8 @@ export const initialCourses: Course[] = [
     icon: '🐍',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.8,
     lessons: [
       { id: 1, title: 'NumPy та Pandas', duration: '90 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Matplotlib', duration: '60 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -188,6 +202,8 @@ export const initialCourses: Course[] = [
     icon: '💚',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.4,
     lessons: [
       { id: 1, title: 'Vue Instance', duration: '50 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Vuex State Management', duration: '70 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -208,6 +224,8 @@ export const initialCourses: Course[] = [
     icon: '🍃',
     enrolled: false,
     progress: 0,
+    level: 'beginner',
+    rating: 4.3,
     lessons: [
       { id: 1, title: 'Колекції та документи', duration: '55 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Aggregation Pipeline', duration: '65 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -228,6 +246,8 @@ export const initialCourses: Course[] = [
     icon: '🐳',
     enrolled: false,
     progress: 0,
+    level: 'advanced',
+    rating: 4.6,
     lessons: [
       { id: 1, title: 'Docker Images', duration: '60 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Docker Compose', duration: '70 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -248,6 +268,8 @@ export const initialCourses: Course[] = [
     icon: '🔷',
     enrolled: false,
     progress: 0,
+    level: 'advanced',
+    rating: 4.2,
     lessons: [
       { id: 1, title: 'Схеми та типи', duration: '55 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Resolvers', duration: '60 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -268,6 +290,8 @@ export const initialCourses: Course[] = [
     icon: '☁️',
     enrolled: false,
     progress: 0,
+    level: 'advanced',
+    rating: 4.5,
     lessons: [
       { id: 1, title: 'EC2 та S3', duration: '75 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Lambda Functions', duration: '80 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -288,6 +312,8 @@ export const initialCourses: Course[] = [
     icon: '🅰️',
     enrolled: false,
     progress: 0,
+    level: 'advanced',
+    rating: 4.1,
     lessons: [
       { id: 1, title: 'Модулі та компоненти', duration: '65 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'RxJS та Observables', duration: '85 хv', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -308,6 +334,8 @@ export const initialCourses: Course[] = [
     icon: '🔄',
     enrolled: false,
     progress: 0,
+    level: 'advanced',
+    rating: 4.3,
     lessons: [
       { id: 1, title: 'Store та Actions', duration: '50 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Reducers', duration: '55 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -328,6 +356,8 @@ export const initialCourses: Course[] = [
     icon: '▲',
     enrolled: false,
     progress: 0,
+    level: 'advanced',
+    rating: 4.9,
     lessons: [
       { id: 1, title: 'SSR та SSG', duration: '90 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'API Routes', duration: '70 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -348,6 +378,8 @@ export const initialCourses: Course[] = [
     icon: '🎨',
     enrolled: false,
     progress: 0,
+    level: 'beginner',
+    rating: 4.6,
     lessons: [
       { id: 1, title: 'Utility Classes', duration: '40 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Customization', duration: '50 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -368,6 +400,8 @@ export const initialCourses: Course[] = [
     icon: '🐘',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.4,
     lessons: [
       { id: 1, title: 'SQL Queries', duration: '65 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Indexing', duration: '70 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -388,6 +422,8 @@ export const initialCourses: Course[] = [
     icon: '🃏',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.2,
     lessons: [
       { id: 1, title: 'Unit Tests', duration: '55 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Mocking', duration: '60 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -408,6 +444,8 @@ export const initialCourses: Course[] = [
     icon: '🔌',
     enrolled: false,
     progress: 0,
+    level: 'advanced',
+    rating: 4.0,
     lessons: [
       { id: 1, title: 'WebSocket API', duration: '60 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Socket.io', duration: '70 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
@@ -428,6 +466,8 @@ export const initialCourses: Course[] = [
     icon: '🔥',
     enrolled: false,
     progress: 0,
+    level: 'intermediate',
+    rating: 4.5,
     lessons: [
       { id: 1, title: 'Reactive Statements', duration: '55 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
       { id: 2, title: 'Stores', duration: '65 хв', completed: false, videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }

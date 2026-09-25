@@ -4,12 +4,16 @@
  * Форма створення курсу (Модулі 2, 5, 6)
  */
 
-import type { FormEvent } from 'react'
+import { Plus, X } from 'lucide-react'
+import type { FormEvent, ReactNode } from 'react'
 import { FieldError } from '@/components/FieldError'
+import { buttonClass, fieldClass, panelClass } from '@/components/ui/styles'
 import { useAppState } from '@/context/AppStateContext'
 import { useNotify } from '@/context/ToastContext'
 import { useFormValidation } from '@/hooks/useFormValidation'
 import { describeApiError, sendCourseToAPI } from '@/lib/api'
+import { LEVEL_LABELS } from '@/lib/courses'
+import type { CourseLevel } from '@/lib/types'
 import type { FieldRules } from '@/lib/validation'
 
 const RULES: Record<string, FieldRules> = {
@@ -55,7 +59,8 @@ export function CreateCourseForm({ onClose }: { onClose: () => void }) {
       instructor: String(data.get('course-instructor')).trim(),
       duration: String(data.get('course-duration')).trim(),
       description: String(data.get('course-description')).trim(),
-      icon: String(data.get('course-icon') ?? '').trim()
+      icon: String(data.get('course-icon') ?? '').trim(),
+      level: String(data.get('course-level')) as CourseLevel
     }
 
     createCourse(input)
@@ -68,67 +73,101 @@ export function CreateCourseForm({ onClose }: { onClose: () => void }) {
       .catch(error => notify(`${describeApiError(error)} — курс збережено лише локально`, 'error'))
   }
 
+  /** Пропси поля з хука валідації + фірмові стилі */
+  const field = (id: string, extra = 'px-3') => {
+    const props = fieldProps(id)
+    return { ...props, className: `${fieldClass} ${extra} ${props.className ?? ''}` }
+  }
+
   return (
-    <div id="create-course-form-container" className="panel">
-      <h3 className="panel-title">➕ Створити власний курс</h3>
-      <form noValidate onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="course-title">Назва курсу</label>
-          <input
-            {...fieldProps('course-title')}
-            type="text"
-            required
-            placeholder="Наприклад: Python для Data Science"
-            data-label="Назва курсу"
-          />
-          <FieldError id="course-title" message={errors['course-title']} />
+    <section
+      id="create-course-form-container"
+      aria-labelledby="create-course-title"
+      className={`${panelClass} p-5 transition-all duration-300 starting:-translate-y-2 starting:opacity-0 sm:p-6`}
+    >
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <h2 id="create-course-title" className="mb-1 text-lg font-semibold text-slate-900 dark:text-white">
+            Створити власний курс
+          </h2>
+          <p className="m-0 text-sm text-slate-500 dark:text-slate-400">Поля з * обов&apos;язкові</p>
         </div>
+        <button type="button" onClick={onClose} aria-label="Закрити форму" className={buttonClass('ghost', 'sm', 'w-9 px-0')}>
+          <X className="size-5" aria-hidden />
+        </button>
+      </div>
 
-        <div className="form-group">
-          <label htmlFor="course-instructor">Викладач</label>
-          <input {...fieldProps('course-instructor')} type="text" required placeholder="Ваше ім'я" data-label="Викладач" />
-          <FieldError id="course-instructor" message={errors['course-instructor']} />
-        </div>
+      <form id="create-course-form" noValidate onSubmit={onSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Field id="course-title" label="Назва курсу *" error={errors['course-title']} className="md:col-span-2">
+          <input {...field('course-title')} type="text" required placeholder="Наприклад: Python для Data Science" data-label="Назва курсу" />
+        </Field>
 
-        <div className="form-group">
-          <label htmlFor="course-duration">Тривалість</label>
-          <input
-            {...fieldProps('course-duration')}
-            type="text"
-            required
-            placeholder="Наприклад: 10 годин"
-            data-label="Тривалість"
-          />
-          <FieldError id="course-duration" message={errors['course-duration']} />
-        </div>
+        <Field id="course-instructor" label="Викладач *" error={errors['course-instructor']}>
+          <input {...field('course-instructor')} type="text" required placeholder="Ваше ім'я" data-label="Викладач" />
+        </Field>
 
-        <div className="form-group">
-          <label htmlFor="course-description">Опис курсу</label>
+        <Field id="course-duration" label="Тривалість *" error={errors['course-duration']}>
+          <input {...field('course-duration')} type="text" required placeholder="Наприклад: 10 годин" data-label="Тривалість" />
+        </Field>
+
+        <Field id="course-level" label="Складність" error={errors['course-level']}>
+          <select {...field('course-level', 'cursor-pointer px-3')} defaultValue="beginner" data-label="Складність">
+            {(Object.keys(LEVEL_LABELS) as CourseLevel[]).map(level => (
+              <option key={level} value={level}>
+                {LEVEL_LABELS[level]}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field id="course-icon" label="Іконка (емодзі)" error={errors['course-icon']}>
+          <input {...field('course-icon')} type="text" placeholder="📚" maxLength={8} data-label="Іконка" />
+        </Field>
+
+        <Field id="course-description" label="Опис курсу *" error={errors['course-description']} className="md:col-span-2">
           <textarea
-            {...fieldProps('course-description')}
+            {...field('course-description', 'h-auto px-3 py-2.5')}
             rows={3}
             required
-            placeholder="Короткий опис курсу..."
+            placeholder="Короткий опис курсу (20–500 символів)..."
             data-label="Опис курсу"
           />
-          <FieldError id="course-description" message={errors['course-description']} />
-        </div>
+        </Field>
 
-        <div className="form-group">
-          <label htmlFor="course-icon">Іконка (емодзі)</label>
-          <input {...fieldProps('course-icon')} type="text" placeholder="📚" maxLength={8} data-label="Іконка" />
-          <FieldError id="course-icon" message={errors['course-icon']} />
-        </div>
-
-        <div className="form-actions">
-          <button type="button" className="btn btn-secondary" onClick={onClose}>
+        <div className="flex flex-wrap justify-end gap-3 border-t border-slate-100 pt-4 md:col-span-2 dark:border-slate-800">
+          <button type="button" className={buttonClass('neutral')} onClick={onClose}>
             Скасувати
           </button>
-          <button type="submit" className="btn btn-primary">
-            ✓ Створити курс
+          <button type="submit" className={buttonClass('success')}>
+            <Plus className="size-5" aria-hidden />
+            Створити курс
           </button>
         </div>
       </form>
+    </section>
+  )
+}
+
+function Field({
+  id,
+  label,
+  error,
+  className = '',
+  children
+}: {
+  id: string
+  label: string
+  error: string | null | undefined
+  className?: string
+  children: ReactNode
+}) {
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+        {label}
+      </label>
+      {children}
+      <FieldError id={id} message={error} />
     </div>
   )
 }

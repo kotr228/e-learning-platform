@@ -5,6 +5,7 @@ import { EmptyState } from '@/components/EmptyState'
 import { useAppState } from '@/context/AppStateContext'
 import { useNotify } from '@/context/ToastContext'
 import type { Course } from '@/lib/types'
+import { buttonClass } from '@/components/ui/styles'
 
 export function LessonViewer({ course, lessonId }: { course: Course; lessonId: number }) {
   const { completeLesson } = useAppState()
@@ -30,7 +31,7 @@ export function LessonViewer({ course, lessonId }: { course: Course; lessonId: n
   return (
     <div className="lesson-viewer">
       <h2>{lesson.title}</h2>
-      <p className="text-muted mb-4">⏱️ {lesson.duration}</p>
+      <p className="mb-6 text-slate-500 dark:text-slate-400">⏱️ {lesson.duration}</p>
 
       <div className="video-wrapper">
         <iframe
@@ -42,18 +43,18 @@ export function LessonViewer({ course, lessonId }: { course: Course; lessonId: n
       </div>
 
       <div className="lesson-actions">
-        <Link href={`/courses/${course.id}`} className="btn btn-back">
+        <Link href={`/courses/${course.id}`} className={buttonClass('neutral')}>
           ← Назад до курсу
         </Link>
         {lesson.completed ? (
           <span className="lesson-done">✅ Урок завершено</span>
         ) : (
-          <button type="button" className="btn btn-primary" onClick={onComplete}>
+          <button type="button" className={buttonClass('success')} onClick={onComplete}>
             ✓ Позначити як завершений
           </button>
         )}
         {next && (
-          <Link href={`/courses/${course.id}/lessons/${next.id}`} className="btn btn-outline-primary">
+          <Link href={`/courses/${course.id}/lessons/${next.id}`} className={buttonClass('outline')}>
             Наступний урок →
           </Link>
         )}

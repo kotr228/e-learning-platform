@@ -2,39 +2,55 @@
  * Чисті функції для роботи з курсами (Модулі 3, 4, 9)
  */
 
-import type { Course, Filters, NewCourseInput, Question, TestAnswer } from './types'
+import type { Course, CourseLevel, Filters, NewCourseInput, Question, TestAnswer } from './types'
 
 export const PASSING_SCORE = 70
-export const ITEMS_PER_PAGE = 6
+/** 12 ділиться на 1, 2, 3 і 4 колонки сітки — рядки завжди заповнені */
+export const ITEMS_PER_PAGE = 12
+
+export const LEVEL_LABELS: Record<CourseLevel, string> = {
+  beginner: 'Початковий',
+  intermediate: 'Середній',
+  advanced: 'Професійний'
+}
 
 // =========================================
 // Фільтрація та сортування (Модуль 3)
 // =========================================
 
-export function getFilteredCourses(courses: Course[], { searchQuery, filterEnrolled, sortBy }: Filters): Course[] {
-  let filtered = [...courses]
-
+export function getFilteredCourses(courses: Course[], { searchQuery, status, level, sortBy }: Filters): Course[] {
   const query = searchQuery.trim().toLowerCase()
-  if (query) {
-    filtered = filtered.filter(course =>
-      [course.title, course.description, course.instructor, course.category ?? '']
-        .some(field => field.toLowerCase().includes(query))
-    )
-  }
 
-  if (filterEnrolled === 'enrolled') {
-    filtered = filtered.filter(course => course.enrolled)
-  } else if (filterEnrolled === 'available') {
-    filtered = filtered.filter(course => !course.enrolled)
-  }
+  const filtered = courses.filter(course => {
+    if (
+      query &&
+      ![course.title, course.description, course.instructor, course.category ?? ''].some(field =>
+        field.toLowerCase().includes(query)
+      )
+    ) {
+      return false
+    }
 
-  if (sortBy === 'title') {
-    filtered.sort((a, b) => a.title.localeCompare(b.title, 'uk'))
-  } else if (sortBy === 'duration') {
-    filtered.sort((a, b) => parseInt(a.duration, 10) - parseInt(b.duration, 10))
-  }
+    if (status === 'available' && course.enrolled) return false
+    if (status === 'in-progress' && !(course.enrolled && course.progress < 100)) return false
+    if (status === 'completed' && !(course.enrolled && course.progress === 100)) return false
 
-  return filtered
+    return level === 'all' || course.level === level
+  })
+
+  switch (sortBy) {
+    case 'newest':
+      // id зростають із часом створення, тож новіші курси мають більший id
+      return filtered.sort((a, b) => b.id - a.id)
+    case 'rating':
+      return filtered.sort((a, b) => b.rating - a.rating || a.title.localeCompare(b.title, 'uk'))
+    case 'title':
+      return filtered.sort((a, b) => a.title.localeCompare(b.title, 'uk'))
+    case 'duration':
+      return filtered.sort((a, b) => parseInt(a.duration, 10) - parseInt(b.duration, 10))
+    default:
+      return filtered
+  }
 }
 
 // =========================================
@@ -75,6 +91,7 @@ export function createCustomCourse(id: number, input: NewCourseInput): Course {
     icon: input.icon || '📚',
     enrolled: false,
     progress: 0,
+    rating: 0,
     isCustom: true,
     lessons: [
       {

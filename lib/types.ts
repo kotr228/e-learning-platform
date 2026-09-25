@@ -31,6 +31,9 @@ export interface Course {
   icon: string
   enrolled: boolean
   progress: number
+  level: CourseLevel
+  /** Середня оцінка від 0 до 5 (0 — ще немає оцінок) */
+  rating: number
   lessons: Lesson[]
   test: CourseTest
   category?: string
@@ -40,13 +43,16 @@ export interface Course {
   isFromAPI?: boolean
 }
 
-export type EnrollmentFilter = 'all' | 'enrolled' | 'available'
-export type SortBy = 'default' | 'title' | 'duration'
+export type CourseLevel = 'beginner' | 'intermediate' | 'advanced'
+export type LevelFilter = 'all' | CourseLevel
+export type StatusFilter = 'all' | 'available' | 'in-progress' | 'completed'
+export type SortBy = 'default' | 'newest' | 'rating' | 'title' | 'duration'
 export type PaginationMode = 'pagination' | 'loadmore' | 'infinite'
 
 export interface Filters {
   searchQuery: string
-  filterEnrolled: EnrollmentFilter
+  status: StatusFilter
+  level: LevelFilter
   sortBy: SortBy
 }
 
@@ -58,6 +64,7 @@ export interface NewCourseInput {
   duration: string
   description: string
   icon: string
+  level: CourseLevel
 }
 
 export interface TestAnswer {

@@ -118,6 +118,8 @@ export async function fetchCoursesFromAPI(firstId: number, limit = 3): Promise<C
       icon: ['🌐', '📡', '☁️'][index % 3],
       enrolled: false,
       progress: 0,
+      level: 'beginner',
+      rating: 0,
       isFromAPI: true,
       lessons: [
         {

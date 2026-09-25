@@ -1,52 +1,74 @@
 'use client'
 
 /**
- * Пагінація та нескінченний скрол (Модуль 9)
+ * Режими відображення: пагінація, Load More, нескінченний скрол (Модуль 9)
  */
 
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsDown,
+  CircleCheck,
+  InfinityIcon,
+  ListOrdered,
+  LoaderCircle,
+  type LucideIcon
+} from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { buttonClass } from '@/components/ui/styles'
 import { useNotify } from '@/context/ToastContext'
 import { getVisiblePages } from '@/lib/courses'
 import type { PaginationMode } from '@/lib/types'
 
-const MODES: Array<{ value: PaginationMode; label: string; icon: string }> = [
-  { value: 'pagination', label: 'Пагінація', icon: '📃' },
-  { value: 'loadmore', label: 'Load More', icon: '⬇️' },
-  { value: 'infinite', label: 'Infinite Scroll', icon: '∞' }
+const MODES: ReadonlyArray<{ value: PaginationMode; label: string; icon: LucideIcon }> = [
+  { value: 'pagination', label: 'Пагінація', icon: ListOrdered },
+  { value: 'loadmore', label: 'Load More', icon: ChevronsDown },
+  { value: 'infinite', label: 'Infinite Scroll', icon: InfinityIcon }
 ]
 
-export function PaginationModeSelector({
-  mode,
-  onChange
-}: {
-  mode: PaginationMode
-  onChange: (mode: PaginationMode) => void
-}) {
+// =========================================
+// Перемикач режиму
+// =========================================
+
+export function ViewModeToggle({ mode, onChange }: { mode: PaginationMode; onChange: (mode: PaginationMode) => void }) {
   const notify = useNotify()
 
   return (
-    <div className="pagination-mode-selector">
-      <span className="fw-bold">📄 Режим відображення:</span>
-      <div className="btn-group btn-group-sm" role="group" aria-label="Режим відображення">
-        {MODES.map(m => (
+    <div
+      role="group"
+      aria-label="Режим відображення"
+      className="inline-flex w-full rounded-xl border border-slate-200 bg-white p-1 shadow-sm sm:w-auto dark:border-slate-800 dark:bg-slate-900"
+    >
+      {MODES.map(({ value, label, icon: Icon }) => {
+        const active = mode === value
+        return (
           <button
-            key={m.value}
+            key={value}
             type="button"
-            className={`btn ${mode === m.value ? 'btn-primary' : 'btn-outline-primary'}`}
-            aria-pressed={mode === m.value}
+            aria-pressed={active}
             onClick={() => {
-              if (m.value === mode) return
-              onChange(m.value)
-              notify(`Режим змінено на: ${m.label}`, 'info')
+              if (active) return
+              onChange(value)
+              notify(`Режим змінено на: ${label}`, 'info')
             }}
+            className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-300 focus-visible:outline-2 focus-visible:outline-brand-500 sm:flex-none ${
+              active
+                ? 'bg-accent-50 text-accent-700 shadow-sm ring-1 ring-accent-200 dark:bg-accent-500/10 dark:text-accent-400 dark:ring-accent-500/25'
+                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100'
+            }`}
           >
-            {m.icon} {m.label}
+            <Icon className="size-4 shrink-0" aria-hidden />
+            <span className="max-[380px]:sr-only">{label}</span>
           </button>
-        ))}
-      </div>
+        )
+      })}
     </div>
   )
 }
+
+// =========================================
+// Класична пагінація
+// =========================================
 
 interface ClassicPaginationProps {
   currentPage: number
@@ -55,99 +77,138 @@ interface ClassicPaginationProps {
   onPageChange: (page: number) => void
 }
 
+const pageButton =
+  'inline-flex h-9 min-w-9 items-center justify-center rounded-lg px-2 text-sm font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-brand-500 disabled:pointer-events-none disabled:opacity-40'
+
 export function ClassicPagination({ currentPage, totalPages, totalItems, onPageChange }: ClassicPaginationProps) {
+  if (totalPages <= 1) {
+    return <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">Всього курсів: {totalItems}</p>
+  }
+
   const go = (page: number) => {
     onPageChange(page)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
-    <nav className="pagination-container" aria-label="Пагінація курсів">
-      <button
-        type="button"
-        className="btn btn-sm btn-outline-primary"
-        disabled={currentPage === 1}
-        onClick={() => go(currentPage - 1)}
-      >
-        « Попередня
-      </button>
-      <div className="d-flex gap-1">
+    <nav aria-label="Пагінація курсів" className="mt-10 flex flex-col items-center gap-3">
+      <div className="flex flex-wrap items-center justify-center gap-1">
+        <button
+          type="button"
+          disabled={currentPage === 1}
+          onClick={() => go(currentPage - 1)}
+          className={`${pageButton} gap-1 pr-3 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800`}
+        >
+          <ChevronLeft className="size-4" aria-hidden />
+          <span className="max-sm:sr-only">Попередня</span>
+        </button>
+
         {getVisiblePages(currentPage, totalPages).map((page, i) =>
           page === 'ellipsis' ? (
-            <span key={`ellipsis-${i}`} className="pagination-ellipsis">
+            <span key={`ellipsis-${i}`} className="px-1 text-slate-400" aria-hidden>
               …
             </span>
           ) : (
             <button
               key={page}
               type="button"
-              className={`btn btn-sm page-number ${page === currentPage ? 'btn-primary' : 'btn-outline-primary'}`}
               aria-current={page === currentPage ? 'page' : undefined}
+              aria-label={`Сторінка ${page}`}
               onClick={() => go(page)}
+              className={`${pageButton} ${
+                page === currentPage
+                  ? 'bg-brand-600 text-white shadow-sm dark:bg-brand-500'
+                  : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+              }`}
             >
               {page}
             </button>
           )
         )}
+
+        <button
+          type="button"
+          disabled={currentPage === totalPages}
+          onClick={() => go(currentPage + 1)}
+          className={`${pageButton} gap-1 pl-3 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800`}
+        >
+          <span className="max-sm:sr-only">Наступна</span>
+          <ChevronRight className="size-4" aria-hidden />
+        </button>
       </div>
-      <button
-        type="button"
-        className="btn btn-sm btn-outline-primary"
-        disabled={currentPage === totalPages}
-        onClick={() => go(currentPage + 1)}
-      >
-        Наступна »
-      </button>
-      <div className="text-muted small w-100 text-center mt-2">
-        Сторінка {currentPage} з {totalPages} (всього курсів: {totalItems})
-      </div>
+      <p className="text-sm text-slate-500 dark:text-slate-400">
+        Сторінка {currentPage} з {totalPages} · всього курсів: {totalItems}
+      </p>
     </nav>
   )
 }
 
-function AllLoaded() {
-  return <div className="text-center text-muted my-4">✓ Всі курси завантажено</div>
-}
+// =========================================
+// Load More / Infinite Scroll
+// =========================================
 
-interface IncrementalProps {
-  hasMore: boolean
-  remaining: number
-  onLoadMore: () => void
+function AllLoaded() {
+  return (
+    <p className="mt-10 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+      <CircleCheck className="size-4 text-accent-600 dark:text-accent-400" aria-hidden />
+      Всі курси завантажено
+    </p>
+  )
 }
 
 const LOAD_MORE_DELAY = 500
 const INFINITE_DELAY = 800
 
-export function LoadMoreButton({ hasMore, remaining, onLoadMore }: IncrementalProps) {
+export function LoadMoreButton({
+  hasMore,
+  remaining,
+  onLoadMore
+}: {
+  hasMore: boolean
+  remaining: number
+  onLoadMore: () => void
+}) {
   const [loading, setLoading] = useState(false)
 
   if (!hasMore) return <AllLoaded />
 
   const onClick = async () => {
     setLoading(true)
-    // Симулюємо затримку завантаження
+    // Симулюємо затримку мережі
     await new Promise(resolve => setTimeout(resolve, LOAD_MORE_DELAY))
     setLoading(false)
     onLoadMore()
   }
 
   return (
-    <div id="load-more-container" className="text-center my-4">
-      <button type="button" className="btn btn-primary btn-lg" disabled={loading} onClick={onClick}>
-        {loading ? 'Завантаження...' : `Завантажити ще (${remaining} курсів)`}
+    <div id="load-more-container" className="mt-10 flex justify-center">
+      <button
+        type="button"
+        disabled={loading}
+        onClick={onClick}
+        className={buttonClass('outline', 'lg', 'hover:-translate-y-0.5 hover:shadow-md')}
+      >
+        {loading ? (
+          <LoaderCircle className="size-5 animate-spin" aria-hidden />
+        ) : (
+          <ChevronsDown className="size-5" aria-hidden />
+        )}
+        {loading ? 'Завантаження...' : `Завантажити ще (${remaining})`}
       </button>
     </div>
   )
 }
 
-interface InfiniteScrollProps {
+export function InfiniteScroll({
+  hasMore,
+  loadedCount,
+  onLoadMore
+}: {
   hasMore: boolean
   /** Кількість уже показаних елементів — після зміни спостереження перезапускається */
   loadedCount: number
   onLoadMore: () => void
-}
-
-export function InfiniteScroll({ hasMore, loadedCount, onLoadMore }: InfiniteScrollProps) {
+}) {
   const sentinel = useRef<HTMLDivElement>(null)
   const [loading, setLoading] = useState(false)
   const loadMore = useRef(onLoadMore)
@@ -171,7 +232,7 @@ export function InfiniteScroll({ hasMore, loadedCount, onLoadMore }: InfiniteScr
           loadMore.current()
         }, INFINITE_DELAY)
       },
-      { rootMargin: '100px', threshold: 0.1 }
+      { rootMargin: '200px', threshold: 0.1 }
     )
 
     observer.observe(el)
@@ -186,12 +247,12 @@ export function InfiniteScroll({ hasMore, loadedCount, onLoadMore }: InfiniteScr
   return (
     <>
       {loading && (
-        <div className="text-center my-4" role="status">
-          <div className="spinner-border text-primary" aria-hidden="true" />
-          <div className="mt-2 text-muted">Завантаження курсів...</div>
+        <div role="status" className="mt-10 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+          <LoaderCircle className="size-5 animate-spin text-brand-600 dark:text-brand-400" aria-hidden />
+          Завантаження курсів...
         </div>
       )}
-      <div ref={sentinel} className="infinite-scroll-sentinel" aria-hidden="true" />
+      <div ref={sentinel} className="h-5" aria-hidden />
     </>
   )
 }

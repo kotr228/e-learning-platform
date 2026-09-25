@@ -11,6 +11,7 @@ import { useNotify } from '@/context/ToastContext'
 import { useFormValidation } from '@/hooks/useFormValidation'
 import { LocalStorageManager } from '@/lib/storage'
 import type { FieldRules } from '@/lib/validation'
+import { buttonClass } from '@/components/ui/styles'
 
 interface Profile {
   name: string
@@ -193,7 +194,7 @@ export default function ProfileForm() {
           </div>
 
           <div className="form-group">
-            <div className="d-flex justify-content-between">
+            <div className="flex justify-between">
               <label htmlFor="profile-motivation">Рівень мотивації</label>
               <output htmlFor="profile-motivation" className="motivation-value">
                 {motivation}%
@@ -236,10 +237,10 @@ export default function ProfileForm() {
         </fieldset>
 
         <div className="form-actions">
-          <button type="reset" className="btn btn-secondary">
+          <button type="reset" className={buttonClass('neutral')}>
             Скинути
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className={buttonClass('success')}>
             💾 Зберегти профіль
           </button>
         </div>
