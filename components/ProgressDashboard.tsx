@@ -6,6 +6,7 @@
 
 import { useEffect, useMemo } from 'react'
 import { EmptyState } from '@/components/EmptyState'
+import { CourseIcon } from '@/components/courses/CourseIcon'
 import { useAppState } from '@/context/AppStateContext'
 import { calculateStatistics, getCoursesAnalytics, getTopInstructors, getUniqueInstructors } from '@/lib/courses'
 
@@ -91,8 +92,9 @@ export function ProgressDashboard() {
             return (
               <div key={course.id} className="panel progress-card">
                 <div className="mb-4 flex items-center justify-between">
-                  <h4 className="m-0">
-                    {course.icon} {course.title}
+                  <h4 className="m-0 flex items-center gap-2">
+                    <CourseIcon course={course} size={20} className="text-brand-600 dark:text-brand-300" />
+                    {course.title}
                   </h4>
                   <span className="font-bold">{course.progress}%</span>
                 </div>

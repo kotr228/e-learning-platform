@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { CourseIcon } from '@/components/courses/CourseIcon'
 import { useAppState } from '@/context/AppStateContext'
 import { useNotify } from '@/context/ToastContext'
 import type { Course } from '@/lib/types'
@@ -17,8 +18,10 @@ export function CourseDetail({ course }: { course: Course }) {
 
   return (
     <div className="course-detail">
-      <div className="course-detail-icon" aria-hidden="true">
-        {course.icon}
+      <div className="mb-4 flex justify-center">
+        <div className="flex h-28 min-w-28 items-center justify-center rounded-3xl bg-gradient-to-br px-7 from-brand-500 via-brand-600 to-accent-500 shadow-lg dark:from-brand-700 dark:via-brand-800 dark:to-accent-700">
+          <CourseIcon course={course} size={56} className="text-white" />
+        </div>
       </div>
       <h2>{course.title}</h2>
       <div className="mb-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500 dark:text-slate-400">

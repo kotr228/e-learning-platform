@@ -28,7 +28,10 @@ export interface Course {
   instructor: string
   duration: string
   description: string
+  /** Emoji-заглушка: для власних курсів і курсів з API, у яких немає логотипа технології */
   icon: string
+  /** Ключі логотипів технологій (див. lib/courseIcons.ts) */
+  tech?: TechIconKey[]
   enrolled: boolean
   progress: number
   level: CourseLevel
@@ -42,6 +45,29 @@ export interface Course {
   /** Курс завантажений з API */
   isFromAPI?: boolean
 }
+
+export type TechIconKey =
+  | 'javascript'
+  | 'html'
+  | 'css'
+  | 'react'
+  | 'nodejs'
+  | 'git'
+  | 'typescript'
+  | 'python'
+  | 'vue'
+  | 'mongodb'
+  | 'docker'
+  | 'graphql'
+  | 'aws'
+  | 'angular'
+  | 'redux'
+  | 'nextjs'
+  | 'tailwind'
+  | 'postgresql'
+  | 'jest'
+  | 'socketio'
+  | 'svelte'
 
 export type CourseLevel = 'beginner' | 'intermediate' | 'advanced'
 export type LevelFilter = 'all' | CourseLevel

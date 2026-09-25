@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { MouseEvent } from 'react'
 import { buttonClass } from '@/components/ui/styles'
+import { CourseIcon } from './CourseIcon'
 import { useAppState } from '@/context/AppStateContext'
 import { useNotify } from '@/context/ToastContext'
 import { LEVEL_LABELS } from '@/lib/courses'
@@ -61,9 +62,10 @@ export function CourseCard({ course }: { course: Course }) {
       <div className="relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500 dark:from-brand-700 dark:via-brand-800 dark:to-accent-700">
         <div className="absolute -top-10 -right-10 size-32 rounded-full bg-white/10" aria-hidden />
         <div className="absolute -bottom-12 -left-8 size-28 rounded-full bg-white/10" aria-hidden />
-        <span className="text-6xl drop-shadow-sm transition-transform duration-300 group-hover:scale-110" aria-hidden>
-          {course.icon}
-        </span>
+        {/* Логотип технології: білий на темному градієнті, по центру обкладинки */}
+        <div className="relative flex items-center justify-center drop-shadow-md transition-transform duration-300 group-hover:scale-110">
+          <CourseIcon course={course} size={48} className="text-white" />
+        </div>
 
         <span
           className={`absolute top-3 left-3 rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ring-inset ${LEVEL_BADGE[course.level]}`}

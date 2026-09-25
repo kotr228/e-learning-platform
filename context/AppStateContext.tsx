@@ -15,6 +15,7 @@ import {
   type ReactNode
 } from 'react'
 import { initialCourses } from '@/lib/data/courses'
+import { isTechIconKey } from '@/lib/courseIcons'
 import { createCustomCourse, withCompletedLesson } from '@/lib/courses'
 import { LocalStorageManager } from '@/lib/storage'
 import type { Course, CourseLevel, Filters, NewCourseInput, PaginationMode } from '@/lib/types'
@@ -99,7 +100,8 @@ function normalizeCourses(courses: Course[]): Course[] {
     return {
       ...course,
       level: LEVELS.includes(course.level) ? course.level : (original?.level ?? 'beginner'),
-      rating: typeof course.rating === 'number' ? course.rating : (original?.rating ?? 0)
+      rating: typeof course.rating === 'number' ? course.rating : (original?.rating ?? 0),
+      tech: Array.isArray(course.tech) ? course.tech.filter(isTechIconKey) : original?.tech
     }
   })
 }
